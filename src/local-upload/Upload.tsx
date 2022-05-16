@@ -4,8 +4,8 @@ import axios from 'axios';
 
 const Upload = () => {
   const [taskName, setTaskName] = useState("");
-  const [img, setNewImage] = useState();
-  const [previewImg, setPreviewImg] = useState();
+  const [img, setNewImage] = useState<FormData>();
+  const [previewImg, setPreviewImg] = useState("");
   const [list, setList] = useState(() => {
     axios.get('http://localhost:3030/get_list')
           .then(res => {
@@ -26,14 +26,14 @@ const Upload = () => {
     getDate();
   }, [date])
 
-  const onSub=  (e)=>{
-    setDate(new Date());
+  const onSub=  () =>{
+    setDate(date+1);
     axios.post('http://localhost:3030/upload', img)
           .then(res => {
           })
   }
 
-  const set_image = (event) => {
+  const set_image = (event: React.ChangeEvent<any>) => {
     let file = event.target.files[0];
     let fileName = event.target.files[0].name;
     const formData = new FormData();
@@ -43,11 +43,10 @@ const Upload = () => {
     setNewImage(formData);
 
     //preview the image
-
     let reader = new FileReader();
-
-    reader.onload = function (r) {
-      setPreviewImg(r.target.result);
+    reader.onload = function (e: any) {
+      const url = e.target.result;
+      setPreviewImg(url);
     }
     reader.readAsDataURL(file);
   }
@@ -82,11 +81,11 @@ const Upload = () => {
                 <div className="col-lg-10 col-md-8 col-12 mx-auto" id="task-list">
                   <div className='row'>
                   {
-                    list && list.map((li) => {
+                    list && list.map((li: any) => {
                       return (
                         <div className='col-md-3'>
                           <div className="form-group">
-                            <label htmlFor=""> {li.taskName} </label><br/>
+                            <label> {li.taskName} </label><br/>
                             <img src={`http://localhost:3030/public/uploads/${li.fileName}`} width={100} alt="" />
                           </div>
                         </div>
