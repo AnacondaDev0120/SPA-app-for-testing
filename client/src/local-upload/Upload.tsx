@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React,{useState, useEffect} from 'react'
 import axios from 'axios';
 
 
@@ -8,9 +8,9 @@ const Upload = () => {
   const [previewImg, setPreviewImg] = useState("");
   const [list, setList] = useState(() => {
     axios.get('http://localhost:3030/get_list')
-      .then(res => {
-        setList(res.data.result);
-      })
+          .then(res => {
+            setList(res.data.result);
+          })
     return [];
   });
   const [date, setDate] = useState(0);
@@ -26,11 +26,11 @@ const Upload = () => {
     getDate();
   }, [date])
 
-  const onSub = () => {
-    setDate(date + 1);
+  const onSub=  () =>{
+    setDate(date+1);
     axios.post('http://localhost:3030/upload', img)
-      .then(res => {
-      })
+          .then(res => {
+          })
   }
 
   const set_image = (event: React.ChangeEvent<any>) => {
@@ -51,56 +51,54 @@ const Upload = () => {
     reader.readAsDataURL(file);
   }
 
-  return (
-    <>
-      <div className="box">
-        <div className="">
-          <div className="">
-            <div className="col-lg-6 col-md-8 col-12 mx-auto" id="formdata">
-              <form onSubmit={onSub} >
-                <div className="form-group">
-                  <label htmlFor="">Task Name : </label>
-                  <input type="text" className="form-control" placeholder="Enter Task Name" id="email" name="task" value={taskName} onChange={(e) => setTaskName(e.target.value)} required />
-                </div>
-                <div className="form-group">
-
-                  <div className='row'>
-                    <div className="col-md-4">
-
+    return (
+      <>
+          <div className="box">
+            <div className="">
+              <div className="">
+                <div className="col-lg-6 col-md-8 col-12 mx-auto" id="formdata">
+                  <form onSubmit={onSub} >
+                    <div className="form-group">
+                      <label htmlFor="">Task Name : </label>
+                      <input type="text" className="form-control" placeholder="Enter Task Name" id="email" name="task" value={taskName} onChange={(e)=>setTaskName(e.target.value)} required />
                     </div>
-                    <div className="col-md-4">
-                      <label htmlFor="file-input">
-                        <img className='br-50' src={previewImg ? previewImg : 'clipart2562682.png'} width="200" height="200" alt="Empty image" />
-                        </label>
-                      <input id='file-input' type="file" name="imgfile" className="form-control" style={{ display: 'none' }} onChange={(e) => set_image(e)} required />
-                    </div>
-                  </div>
+                    <div className="form-group">
 
-                </div>
-                <button type="submit" className="btn btn-primary">Submit</button>
-              </form>
-            </div>
-            <div className="col-lg-10 col-md-8 col-12 mx-auto" id="task-list">
-              <div className='row'>
-                {
-                  list && list.map((li: any) => {
-                    return (
-                      <div className='col-md-3'>
-                        <div className="form-group">
-                          <label> {li.taskName} </label><br />
-                          <img src={`http://localhost:3030/public/uploads/${li.fileName}`} width={100} alt="" />
+                      <div className='row'>
+                        <div className="col-md-5">
+                          <img src={previewImg} width="200" height="200" alt="Empty image" />
+                        </div>
+                        <div className="col-md-7">
+                          <label htmlFor="">Upload Task Image:</label>
+                          <input type="file" name="imgfile" className="form-control"   onChange={(e)=>set_image(e)} required />
                         </div>
                       </div>
-                    );
-                  })
-                }
+                      
+                    </div>
+                    <button type="submit" className="btn btn-primary">Submit</button>
+                  </form>
+                </div>
+                <div className="col-lg-10 col-md-8 col-12 mx-auto" id="task-list">
+                  <div className='row'>
+                  {
+                    list && list.map((li: any) => {
+                      return (
+                        <div className='col-md-3'>
+                          <div className="form-group">
+                            <label> {li.taskName} </label><br/>
+                            <img src={`http://localhost:3030/public/uploads/${li.fileName}`} width={100} alt="" />
+                          </div>
+                        </div>
+                      );
+                    })
+                  }
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </>
-  )
+      </>
+    )
 }
 
 export default Upload;
