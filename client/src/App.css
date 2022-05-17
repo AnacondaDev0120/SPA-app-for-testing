@@ -24,3 +24,6 @@
   border-radius: 10px;
   box-shadow: 3px 3px #1b4652;
 }
+.br-50{
+  border-radius: 20%;
+}
